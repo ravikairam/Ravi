@@ -1,0 +1,26 @@
+Problem Specific Instructions:
+
+Introduction:
+
+This data is simplified and anonymized version of real automobile engine test data. A leading car manufacturer is designing an automobile engine. It is required by law and regulations, that a given engine configuration is goes through rigorous engine bench test before it is passed for production. Each bench test is an expensive, noisy and time consuming process. Instead the manufacturer would like to use some previous data on various configurations tested and determine through analytics model if their new design will pass or not. This will help them narrow down only few configurations for further testing on physical bench test. Your task is to build that model for them.
+
+Primary Data Files:
+
+Train:Training data with target variable (‘y’) which represents outcome of the bench test.
+Test: Data on which your model will be evaluated on grader.
+Sample submission files: Make sure your submissions matches the format/template given in this file. The target values are randomly generated only for illustration.
+Additional Data Files:
+
+This data is related to other similar but not identical test performed on the same configuration. Data is provided for two tests (TestA and TestB). Values under TestA and TestB corresponds to Engine ID in your primary data. If a particular Engine ID is present under TestA, it has passed that particular test. If that ID is not present, then it has not passed that test. Similarly, values under TestB can be interpreted. Note that neither TestA nor TestB is required or guarantees passing the final Engine test. (Target variable ‘y’). However, if an engine has passed both TestA and TestB, then it may be potential indicator of final test performance along with other parameters.
+
+Caution: This data contains only Engine IDs. If you see ‘NAs’ when you read Additional Data, it is only because lengths mismatch in TestA and TestB and not because data is ‘missing’. Process your data accordingly.
+
+Evaluation Metric: Accuracy
+
+General Instructions:
+
+Sharing is NOT caring: PHD is strictly individual effort and meant to be competitive. You are hurting yourself by helping your colleagues in this. Any indication of copying and sharing of material (code, presentations, etc) through any means would be severely penalized.
+Continued Effort: You are strongly encouraged to improve your model over the week after the hackathon is completed. Your efforts over the week would be reviewed during the viva.
+Validation: Make sure you validate your model through appropriate techniques like K-fold cross validation or other related techniques. Feel free to explore further techniques like Leave-one-out Cross validation as well. Your validation efforts will be reviewed in detail during your viva and presentation.
+Visualization: Include only meaningful visualization with proper labelling and annotation. Do not dump every single plot generated out of your tool which you yourself cannot explain. Any plot with no annotation or no value will be viewed negatively during your viva. At the same time, having no visuals at all will hurt your score.
+Own your responsibilities: We understand you could have a busy week at work or home but do not talk about how busy you were during the week as an excuse for incomplete work. Own your presentation completely without blaming on your schedule or technical issues.
