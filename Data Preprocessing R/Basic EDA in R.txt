@@ -1,0 +1,29 @@
+getwd ()
+
+library(DMwR)
+
+data (algae)
+
+head(algae)
+
+summary(algae)
+
+attach(algae)
+
+hist(mxPH)
+
+install.packages("car")# install "car" library to get qq plot
+
+library(car)
+
+qq.plot(mxPH,main="Normal distribution mxPH")
+
+boxplot(oPO4,ylab="oPO4")
+
+abline (h=mean(oPO4,na.rm=T),lty=2)
+
+str(algae)# gives catageorical values & integers seperately
+
+library(lattice)# package to install for BW plot
+
+bwplot (size~a1,data=algae,ylab = "River Size" ,xlab = a1)

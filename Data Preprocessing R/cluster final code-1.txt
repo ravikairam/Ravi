@@ -1,0 +1,134 @@
+getwd ()
+
+setwd ("F:/")
+
+Uni <- read.csv ("University.csv",header=T) # Read csv file
+
+attach(Uni) # to call directly with column names
+
+plot(Uni) # Scatter plot for all variables
+
+plot (Z.SAT~Z.Top10,Uni)# Scatterplot between 2 variables income & age
+
+str(Uni) # to know factors, intergers & numbers variables in data set
+
+with(Uni,text(Z.SAT~Z.Top10,labels=Univ,pos=4,cex=0.4)) # Giving text to the data points
+
+# Normalization (to have only quantitative variables & not factors)
+
+z <- Uni[,-c(1,1)]# remove first column from dataset (Facor)
+
+z
+
+# Normalization
+
+m <- apply (z,2,mean)# calculating mean for all columns(ie 2 means col, 1 means row)
+
+s <- apply (z,2,sd)# calculating SD for all columns(ie 2 means col, 1 means row)
+
+z <- scale (z,m,s) # Normalized dataset
+
+# Calculating Euclidean distance
+
+distance <- dist(z)
+
+print (distance,digits = 3)
+
+# cluster dendogram with complete linkage
+
+hc.c <- hclust(distance)
+
+plot(hc.c,labels = Uni$Univ)
+
+plot (hc.c,hang = -1)
+
+
+# cluster dendogram with average linkage
+
+hc.a <- hclust(distance,method = "average")
+
+plot (hc.a,hang = -1)
+
+#cluster membership
+
+member.c <- cutree(hc.c,3)
+
+member.a <- cutree(hc.a,3)
+
+table(member.c,member.a)
+
+#cluster means
+
+aggregate(z, list(member.c),mean)# compare the parameters
+
+aggregate(Uni[,-c(1,1)], list(member.c),mean)# parameters for original units
+
+#Silhoutee plot
+
+install.packages("cluster")
+
+library(cluster)
+
+plot(silhouette(cutree(hc.c,3),distance))
+
+#scree plot
+
+##############    K- Means Clustering ##########################
+
+
+install.packages("animation")
+
+library(animation)
+
+getwd () # Get current working directory
+
+setwd ("F:/") # Setting directory to desired path
+
+Univ1 <- read.csv ("University.csv", header = T) # Read Insurance dataset file to variable ins1
+
+str(Univ1) # viwe the data in assigned variable
+
+Uni <- Univ1[,c(2:7)] # Assign variable ins with all rows & with only 2 & 5 columns as data
+
+head(Uni) # shows top u data points of assigned variable
+
+km <- kmeans (Uni,4) # data into 4 clusters (sqrt n/2) , n is no of data points
+
+km$cluster # gives each data point falls into which cluster
+
+km$centers # Centroids of each cluster
+
+km$totss # sum of within totss + sum of between ss
+
+km$withinss# Total sum of squares distance of each data point to centroid
+
+
+km$tot.withinss # Total sum of squares distance of each cluster
+
+km$betweenss # Total between sum of squares between each centroid of cluster
+
+km$size # Gives size of each cluster
+
+km$iter
+
+Univ2 <- cbind(Uni, km$cluster)
+
+attach (Univ1)
+
+plot (Z.SAT,Z.Top10,col=km$cluster)
+
+install.packages("calibrate")
+
+library(calibrate)
+
+textxy(Z.SAT,Z.Top10,Univ)
+
+table(data.frame(Univ, km$cluster))
+
+tab <- table(data.frame(Univ, km$cluster))
+
+tab
+
+write.table(tab, file = "University1.csv",row.names=TRUE, na="",col.names=TRUE, sep=",")
+
+

@@ -1,0 +1,6 @@
+The following code splits 70% of the data selected randomly into training set and the remaining 30% sample into test data set.
+data<-read.csv("c:/datafile.csv")
+
+dt = sort(sample(nrow(data), nrow(data)*.7))
+train<-data[dt,]
+test<-data[-dt,]

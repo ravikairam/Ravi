@@ -1,0 +1,37 @@
+MISSING VALUE IMPUTATIONS WITH RANDOM FOREST
+
+Deepanshu Bhalla  April 19, 2015  Add Comment  data mining, Machine Learning, R Programming
+
+ 
+In most of the predictive model techniques, it is required to impute missing values before training a predictive model. There is a way you can impute missing data with Random Forest Algorithm.
+
+I. Impute missing values in predictor data using proximity from randomForest.
+
+The proximity matrix from the randomForest is used to update the imputation of the NAs. For continuous predictors, the imputed value is the weighted average of the non-missing obervations, where the weights are the proximities. For categorical predictors, the imputed value is the category with the largest average proximity. This process is iterated iter times.
+
+Default Method :  5 Iterations and 300 Trees
+
+data(iris)
+str(iris)
+iris.na <- iris
+set.seed(111)
+## artificially drop some data values.
+for (i in 1:4) iris.na[sample(150, sample(20)), i] <- NA
+set.seed(222)
+library(randomForest)
+iris.imputed <- rfImpute(Species ~ ., iris.na, iter=5, ntree=500)
+set.seed(333)
+iris.rf <- randomForest(Species ~ ., iris.imputed)
+print(iris.rf)
+
+
+II. Impute missing values in predictor data using median / mode.
+data(iris)
+iris.na <- iris
+set.seed(111)
+## artificially drop some data values.
+for (i in 1:4) iris.na[sample(150, sample(20)), i] <- NA
+library(randomForest)
+iris.roughfix <- na.roughfix(iris.na)
+iris.narf <- randomForest(Species ~ ., iris.na, na.action=na.roughfix)
+print(iris.narf)

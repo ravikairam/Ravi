@@ -1,0 +1,793 @@
+2+2 # control+enter or control+R
+
+1:50 # print numbers 1 to 50 to the console
+
+50:1 
+
+print (" Hello World!")
+
+x <- 1:5 
+
+y <- c(1,3,5,7,9)
+
+y
+
+x+y
+
+a <- 1:6
+
+a
+
+a+y
+
+a*2
+
+ls ()
+
+install.packages ("xml")
+
+library ("XML")
+
+getwd ()
+
+mba <- read.csv ("mba.csv")
+
+creditdata <- read.csv("creditdata.csv")
+
+x <- 1:5
+
+mean (x)
+
+x <- c(1,2,3,4,5)
+
+mean (x)
+
+getwd ()
+  
+
+
+temp <- c(38, 32, 34,38,40)
+
+percp <- c(110, 112, 103, 117, 95)
+
+
+
+matrix(c(temp, percp), ncol = 2, byrow = F )
+
+tempercptrain <- data.frame (temp = c (38, 32, 34, 38, 40), percp = c (110, 102,103,117,98), rain = c ("Y", "N", "N","Y", "N"))
+
+tempercptrain
+
+cube <- function (x) {x*x*x}
+cube (2)
+cube (1:4)
+
+?slx
+
+a <- seq (1,0, -0.1)
+
+order <-  order (fraudData$creditLine) 
+
+fraudDatacc[rev(order(fraudData$creditLine)), ]
+
+cc <- cbind(Plasma, Diabetes)
+
+ad <-  rbind (hour_transaction, transaction_data)
+
+? cbind
+
+getwd()
+
+2 + 2 # control+enter or control+R
+
+1:50 # print numbers from 1 to 50 to the console
+
+100:1
+
+print("Hello World!")
+
+# to clear the console press ctrl+L
+
+x <- 1:5 # shortcut is alt+-
+
+x # displays the components of variable x to console
+
+y <- c(3, 5, 8, 12, 13) # assigning different numbers to a variable called y
+
+y
+
+x + y # adding two vectors. Vector is collection of numerical values
+
+x * 2 # multiplying vector 'x' with number 2
+
+ls() # list objects
+
+rm(list=ls()) # empty the global environment
+
+mba <- read.csv("C://Users//ExcelR//Desktop//mba.csv", header = T)
+
+socialnetwork <- read.csv("C:/Users/bdepuru/Desktop/Excelr_website/Business Analytics/mba.csv", header = T)
+
+getwd() # current working directory
+
+setwd() # set your own working directory
+
+socialnetwork <- read.csv("mba.csv", header = T)
+
+str(socialnetwork) # know the structure of the csv file which was loaded to R
+
+?setwd()
+
+?read.csv
+#SAS, SPSS (*.sav), MATLAB, STATA, MINITAB
+
+install.packages("foreign") # install the package
+
+library(foreign) # loads the package
+
+spss <- read.spss("social_network.sav", to.data.frame=T, use.value.labels = T)
+
+str(spss)
+
+mba <- read.csv("mba.csv", header = T)
+
+hist(gmat)
+
+hist(mba$gmat) 
+
+attach(mba)
+
+hist(gmat)
+
+browseURL("http://cran.r-project.org/web/views/") # takes to the URL & this URL has the views
+
+library() # Shows window with the list fo available packages
+
+search () # list of packages which are active
+
+install.packages("psych")
+
+library(psych)
+
+require(psych)
+
+library(help = "psych")
+
+vignette(package="psych")
+
+browseVignettes(package = "psych")
+
+vignette()
+
+browseVignettes()
+
+update.packages()
+
+detach("package:psych", unload=TRUE)
+
+pnorm(740, 711, 29)
+
+pnorm(697, 711, 29)
+
+install.packages("extRemes")
+
+library(extRemes)
+
+qqnorm(mba$gmat)
+
+qqline(mba$gmat, col="red")
+
+qqPlot(mba$gmat, distribution="norm")
+
+install.packages("moments")
+
+library(moments)
+
+skewness(mba$gmat)
+
+kurtosis(mba$gmat)
+
+qnorm(.975)
+
+pnorm(1.96)
+
+qnorm(0.95)
+
+pnormsocialnetwork <- read.csv("social_network.csv", header = T)
+
+freqofsocial <- table(socialnetwork$Site) # creates a table of a column/variable
+
+freqofsocial
+
+barplot(freqofsocial) # creates a barplot
+
+barplot(freqofsocial[order(freqofsocial, decreasing=F)]) # arranges the bars in a barplot in ascending order
+
+barplot(freqofsocial[order(freqofsocial)], horiz=T) # arrange the bars in horizontal format
+
+barplot(freqofsocial[order(freqofsocial)], horiz=T, col='red')
+
+barplot(freqofsocial[order(freqofsocial)], horiz=T, col='red', border=NA, xlim=c(0, 100),
+        main="Social network bar plot", xlab = "Count of people using SM")
+
+hist(socialnetwork$Age)
+
+barplot(mba$gmat)
+
+hist(mba$gmat)
+
+hist(mba$workex)
+
+hist(mba$gmat, col="red", main="GMAT Scores of MBA students", xlab = "GMAT Score")
+
+hist(mba$gmat, col=colors()[c(18, 26, 254)], main="GMAT Scores of MBA students", xlab = "GMAT Score")
+colors()
+?color
+??color
+
+boxplot(mba$gmat)
+
+boxplot(mba$gmat, col="pink", notch=T, horizontal = T, main="GMAT SCORES OF MBA STUDENTS", xlab= "GMAT Scores")
+
+summary(mba$gmat)
+summary(mba$workex) # all the values which are represented using Box Plot along with Mean value
+
+fivenum(mba$gmat) # Tukey's 5 number summary
+
+install.packages("psych")
+
+library(psych)
+
+describe(mba$gmat)
+?describe
+
+a <- rnorm(1000) # generated 1000 random numbers from normal distribution
+
+a
+describe(a)
+
+b <- rnorm(1000)
+describe(b)
+
+hist(a)
+
+add <- a + b
+
+hist(add)
+
+mult <- a * b
+
+hist(mult)
+
+kurtosi(a)
+
+kurtosi(b)
+
+kurtosi(add) # Negative & lower the value wider is the distribution
+
+kurtosi(mult) # Positive & higher the value thinner is the distribution
+
+hist(b)
+
+str(mba)
+
+names(google_correlate) # provides names of the columns
+attach(google_correlate)
+
+plot(degree, data_viz)
+
+socialnetwork <- read.csv("social_network.csv", header = T)
+
+freqofsocial <- table(socialnetwork$Site) # creates a table of a column/variable
+
+freqofsocial
+
+barplot(freqofsocial) # creates a barplot
+
+barplot(freqofsocial[order(freqofsocial, decreasing=F)]) # arranges the bars in a barplot in ascending order
+
+barplot(freqofsocial[order(freqofsocial)], horiz=T) # arrange the bars in horizontal format
+
+barplot(freqofsocial[order(freqofsocial)], horiz=T, col='red')
+
+barplot(freqofsocial[order(freqofsocial)], horiz=T, col='red', border=NA, xlim=c(0, 100),
+        main="Social network bar plot", xlab = "Count of people using SM")
+
+hist(socialnetwork$Age)
+
+barplot(mba$gmat)
+
+hist(mba$gmat)
+
+hist(mba$workex)
+
+hist(mba$gmat, col="red", main="GMAT Scores of MBA students", xlab = "GMAT Score")
+
+hist(mba$gmat, col=colors()[c(18, 26, 254)], main="GMAT Scores of MBA students", xlab = "GMAT Score")
+colors()
+?color
+??color
+
+boxplot(mba$gmat)
+
+boxplot(mba$gmat, col="pink", notch=T, horizontal = T, main="GMAT SCORES OF MBA STUDENTS", xlab= "GMAT Scores")
+
+summary(mba$gmat)
+summary(mba$workex) # all the values which are represented using Box Plot along with Mean value
+
+fivenum(mba$gmat) # Tukey's 5 number summary
+
+install.packages("psych")
+
+library(psych)
+
+describe(mba$gmat)
+?describe
+
+a <- rnorm(1000) # generated 1000 random numbers from normal distribution
+
+describe(a)
+
+b <- rnorm(1000)
+describe(b)
+
+hist(a)
+
+add <- a + b
+
+hist(add)
+
+mult <- a * b
+
+hist(mult)
+
+kurtosi(a)
+
+kurtosi(b)
+
+kurtosi(add) # Negative & lower the value wider is the distribution
+
+kurtosi(mult) # Positive & higher the value thinner is the distribution
+
+hist(b)
+
+str(mba)
+
+names(google_correlate) # provides names of the columns
+attach(google_correlate)
+
+plot(degree, data_viz)
+
+getwd() # to know your default working directory
+
+setwd() # to change your default working directory
+
+vic <- readLines("C:\\Users\\ExcelR\\Downloads\\module 3 - Datasets\\victims.txt")
+
+vic <- readLines("victims.txt")
+
+vic
+
+df <- as.data.frame(vic)
+
+df
+
+class(df)
+
+length(df)
+
+nrow(df)
+
+ncol(df)
+
+str(df)
+
+comments <-  grepl("^%", vic)
+
+comments
+
+text <- vic[!comments]
+
+text
+
+comments_grep <- grep ("^%", victims)
+
+comments_grep
+
+text_grep <- victims[!comments_grep]
+
+text_grep
+
+text[1]
+
+x <- text[1]
+
+y <- sub("[[:digit:]]", "", x)
+
+y
+
+y <- gsub("[[:digit:]]", "", x)
+
+y
+
+text[9]
+
+r <- regexpr ("9", text[9])
+
+r
+
+r <- gregexpr("9", text[9])
+
+r
+
+splitlines <- strsplit(text, split=",")
+splitlines
+
+Lines <- matrix(unlist(splitlines), nrow=length(splitlines), byrow=TRUE)
+
+Lines
+
+colnames(Lines) <- c("Name", "BirthYear", "DeathYear")
+
+Test <- as.data.frame(Lines)
+
+str(Test)
+
+str(TV)
+
+?as.data.frame
+
+TV
+
+TV$BirthYear <- as.numeric(TV$BirthYear)
+
+TV$BirthYear
+
+TV <- transform(TV, DeathYear=as.numeric(DeathYear))
+
+class(TV$BirthYear)
+
+mean(TV$BirthYear)
+
+clean_callsdata <- apply(telecomCalls, MARGIN=2, function(x) {ifelse (x==99 | x==-99, NA, x)})
+
+?apply
+
+clean_callsdata
+
+mean(clean_callsdata$numberVmail)
+str(clean_callsdata)
+
+install.packages("lattice")
+library(lattice)
+
+?barley
+
+lapply(barley, function(x) length(unique(x)))
+
+sapply(barley, function(x) length(unique(x)))
+
+tapply(barley$yield, barley$site, mean)
+
+tapply(barley$yield, list(barley$year, barley$site), mean)
+
+data()
+
+data(mtcars)
+View(mtcars)
+attach(mtcars)
+
+install.packages("Hmisc")
+library(Hmisc)
+summary(mtcars)
+
+install.packages("grid")
+library(grid)
+install.packages("lattice")
+library(lattice)
+install.packages("survival")
+library(survival)
+install.packages("Formula")
+library(Formula)
+install.packages("ggplot2")
+library(ggplot2)
+
+describe(mtcars)
+
+?mtcars
+?describe
+
+newcut <- summarize(mtcars$mpg, mtcars$cyl, mean) # (input, bygroup, function)
+newcut
+
+newcut <- summarize(mtcars$mpg, mtcars$cyl, quantile)
+newcut
+
+newcut <- summarize (mtcars$mpg, mtcars$cyl, summary)
+newcut
+
+attach(mtcars)
+
+mean(wt, na.rm=T)
+var(wt, na.rm = T)
+sd (wt, na.rm=T)
+unique(hp)
+unique(cyl)
+
+aggregate(mpg~cyl, data =mtcars, mean)
+aggregate(wt~gear, data=mtcars, sd)
+cor(mtcars)
+?cor
+install.packages("corrgram")
+library(corrgram)
+install.packages("iterators")
+library(iterators)
+
+?iterators
+
+
+corrgram(mtcars)
+plot(mtcars$cyl, mtcars$mpg)  # plot (x, y)
+plot(mtcars$cyl, type = "o", col="blue", ylim=c(0,30))
+lines(mtcars$mpg, type = "o", col="red")
+boxplot(mtcars$mpg, col="blue", horizontal = T)
+boxplot(mtcars$mpg~mtcars$cyl, data=mtcars, main="Car Mileage Data", xlab = "No. of cylinders", ylab = "Miles per gallon")
+stars(mtcars, draw.segments=TRUE, key.loc = c(12,1))
+plot(hclust(dist(mtcars$mpg)), main = "Hierarchical clustering mtcars", sub = '1973-74 model cars', xlab = 'Cars', ylab = "")
+?stars
+
+data()
+?iris
+data(iris)
+View(iris)
+plot(iris)
+head(iris)
+tail(iris)
+plot(iris$Sepal.Length, iris$Species) # x axis (variable), y axis
+
+plot(iris$Species, iris$Sepal.Length) # x axis is categorical
+
+plot(iris$Sepal.Length)
+stem(iris$Sepal.Length) # stem & leaf
+
+write.csv(iris, file = "iris.csv")
+getwd()
+
+setwd()
+data(faithful)
+?faithful
+View(faithful)
+stem(faithful$eruptions)
+
+write.csv(faithful, file="faithful.csv")
+
+?iris
+stem(iris$Sepal.Length)
+hist(iris$Sepal.Length)
+
+plot(iris$Sepal.Length, type = 'l')
+?plot
+barplot(iris$Sepal.Length)
+pie(table(iris$Species))
+hist(iris$Sepal.Length)
+boxplot(iris$Sepal.Length, horizontal = T)
+rug(iris$Sepal.Length, side=1)
+
+?rug
+par(mfrow=c(3,2))  # rows, columns
+sunflowerplot(iris$Sepal.Length)
+plot(iris$Sepal.Length)
+boxplot(iris$Sepal.Length)
+plot(iris$Sepal.Length, type='l')
+plot(density(iris$Sepal.Length))
+hist(iris$Sepal.Length)
+
+par(mfrow=c(1,2))
+plot(mtcars$mpg, mtcars$cyl, main = "Example Title", col = "blue", xlab = "Miles per Gallon", ylab = "Number of Cylinders")
+plot(mtcars$mpg, mtcars$cyl)
+colors()
+
+par(bg="grey") # changed background color to grey
+boxplot(mtcars$mpg~mtcars$cyl)  # Y = f(X) (E.g. Weight gained ~ Calories Consumed)
+
+data("VADeaths")
+View(VADeaths)
+?VADeaths
+head(VADeaths)
+par(mfrow=c(3,2)) # rows, columns
+hist(VADeaths, col=heat.colors(7), main="col=heat.colors(7)")
+hist(VADeaths, col=terrain.colors(7), main="col=terrain.colors(7)")
+hist(VADeaths, col=topo.colors(8), main="col=topo.colors(8)")
+hist(VADeaths, col=cm.colors(8), main="col=cm.colors(8)")
+hist(VADeaths, col=cm.colors(10), main="col=cm.colors(10)")
+hist(VADeaths, col=rainbow(8), main="col=rainbow(8)")
+?hist
+
+?par
+install.packages("RColorBrewer")
+library(RColorBrewer)
+
+par(mfrow=c(2,3)) # 2 rows & 3 columns
+hist(VADeaths, col=brewer.pal(3, "Set3"), main="Set3 3 colors")
+hist(VADeaths, col=brewer.pal(3, "Set2"), main="Set2 3 colors")
+hist(VADeaths, col=brewer.pal(3, "Set1"), main="Set1 3 colors")
+hist(VADeaths, col=brewer.pal(8, "Set3"), main="Set3 8 colors")
+hist(VADeaths, col=brewer.pal(8, "Greys"), main="Grey 8 colors")
+hist(VADeaths, col=brewer.pal(8, "Greens"), main="Green 8 colors")
+
+install.packages("hexbin")
+library(hexbin)
+plot(hexbin(iris$Species, iris$Sepal.Length))
+
+plot(hexbin(mtcars$mpg, mtcars$cyl))
+
+install.packages("tabplot")
+library(tabplot)
+
+tableplot(iris)
+View(iris)
+install.packages("vcd")
+library(vcd)
+mosaic(Titanic)
+
+heatmap(as.matrix(mtcars))
+
+install.packages("plyr")
+library(plyr)
+
+x <-  runif(50) # generating 50 random numbers
+?runif
+x
+
+y <-  runif(50) # generating 50 random numbers 
+
+y
+
+data <- cbind(x,y) 
+
+data
+
+plot(data)
+
+km <- kmeans(data,4) #kmeans clustering
+ str(km)
+
+install.packages("animation")
+library(animation)
+
+km <- kmeans.ani(data, 4)
+
+
+str(km)
+
+km$centers
+
+class(km)
+
+km_8 <- kmeans(data,8)
+
+#elbow curve & k ~ sqrt(n/2)
+
+data(mtcars)
+View(mtcars)
+
+cor(mtcars)
+
+library(corrgram)
+
+corrgram(mtcars)
+
+plot(iris)
+
+plot(iris$Sepal.Length, iris$Species)
+
+plot(iris$Species, iris$Sepal.Length)
+
+plot(iris$Sepal.Length)
+
+plot(iris$Sepal.Length, type='l')
+
+plot(iris$Sepal.Length, type='h')
+?plot
+
+barplot(iris$Sepal.Length)
+
+pie(table(iris$Species))
+
+hist(iris$Sepal.Length)
+
+hist(iris$Sepal.Length,breaks=20)
+?hist
+
+plot(density(iris$Sepal.Length))
+
+boxplot(iris$Sepal.Length)
+
+rug(iris$Sepal.Length,side=2)
+
+par(mfrow=c(3,2))
+sunflowerplot(iris$Sepal.Length)
+plot(iris$Sepal.Length)
+boxplot(iris$Sepal.Length)
+plot(iris$Sepal.Length,type="l")
+plot(density(iris$Sepal.Length))
+hist(iris$Sepal.Length)
+
+par(mfrow=c(1,2))
+plot(mtcars$mpg,mtcars$cyl,main="Example Title",col="blue",xlab="Miles per Gallon", ylab="Number of Cylinders")
+plot(mtcars$mpg,mtcars$cyl)
+
+par(bg="yellow") 
+boxplot(mtcars$mpg~mtcars$gear)
+
+par(mfrow=c(3,2))
+hist(VADeaths,col=heat.colors(7),main="col=heat.colors(7)")
+hist(VADeaths,col=terrain.colors(7),main="col=terrain.colors(7)")
+hist(VADeaths,col=topo.colors(8),main="col=topo.colors(8)")
+hist(VADeaths,col=cm.colors(8),main="col=cm.colors(8)")
+hist(VADeaths,col=cm.colors(10),main="col=cm.colors(10)")
+hist(VADeaths,col=rainbow(8),main="col=rainbow(8)")
+
+library(RColorBrewer)
+par(mfrow=c(2,3))
+hist(VADeaths,col=brewer.pal(3,"Set3"),main="Set3 3 colors")
+hist(VADeaths,col=brewer.pal(3,"Set2"),main="Set2 3 colors")
+hist(VADeaths,col=brewer.pal(3,"Set1"),main="Set1 3 colors")
+hist(VADeaths,col=brewer.pal(8,"Set3"),main="Set3 8 colors")
+hist(VADeaths,col=brewer.pal(8,"Greys"),main="Greys 8 colors")
+hist(VADeaths,col=brewer.pal(8,"Greens"),main="Greens 8 colors")
+
+
+library(hexbin)  
+install.packages("hexbin")
+plot(hexbin(iris$Species,iris$Sepal.Length))
+
+View(iris)
+
+plot(hexbin(mtcars$mpg,mtcars$cyl))
+
+install.packages("tabplot")
+library(tabplot)
+tableplot(iris)
+tableplot(mtcars)
+?tableplot
+
+install.packages("ggplot2")
+library(ggplot2)
+tableplot(diamonds)
+
+install.packages("vcd")
+library(vcd)
+mosaic(Titanic)
+
+heatmap(as.matrix(mtcars))
+
+install.packages("sp")
+library(sp) 
+install.packages("maptools")
+library(maptools)
+nc <- readShapePoly(system.file("shapes/sids.shp", package="maptools")[1],
+                    proj4string=CRS("+proj=longlat +datum=NAD27")) 
+names(nc)
+# create two dummy factor variables, with equal labels: 
+set.seed(31)
+nc$f = factor(sample(1:5,100,replace=T),labels=letters[1:5]) 
+nc$g = factor(sample(1:5,100,replace=T),labels=letters[1:5])
+library(RColorBrewer)
+## Two (dummy) factor variables shown with qualitative colour ramp; degrees in axes
+spplot(nc, c("f","g"), col.regions=brewer.pal(5, "Set3"), scales=list(draw = TRUE))
+
+axesspplot(nc, c("f","g"), col.regions=brewer.pal(5, "Set3"), scales=list(draw = TRUE))
+
+install.packages("raster")
+library(raster)
+alt <- getData('alt', country = "IND")
+plot(alt)
+
+gadm<- getData('GADM', country = "IND", level=3) 
+head(gadm)
+table(gadm$NAME_1)
+gadm_GUJ=subset(gadm,gadm$NAME_1=="Gujarat")
+plot(gadm_GUJ)
+
+

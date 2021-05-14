@@ -1,0 +1,31 @@
+Home » R Programming » Correcting Collinearity with Correlation Matrix in R
+CORRECTING COLLINEARITY WITH CORRELATION MATRIX IN R
+
+Deepanshu Bhalla  July 27, 2015  Add Comment  R Programming
+
+ 
+This article talks about how we can correct multicollinearity problem with correlation matrix.
+
+In caret package, there is a function called findCorrelation that helps to identify correlated variables.
+
+How it works - 
+The absolute values of pair-wise correlations are considered. If some variables have a high correlation, the function looks at the mean absolute correlation of each variable and keeps only the variable with the smallest mean absolute correlation and remove the larger absolute correlation.
+Example - Correlation Matrix
+
+X1	X2	X3	X4	X5
+X1	1.00	0.95	0.89	0.85	0.10
+X2	0.95	1.00	0.85	0.81	0.09
+X3	0.89	0.85	1.00	0.78	0.10
+X4	0.85	0.81	0.78	1.00	0.09
+X5	0.10	0.09	0.10	0.09	1.00
+
+Variables to remove from X1 to X4 cluster - "X1" "X2" "X3" as they have larger mean absolute correlation than X4.
+
+R Code - 
+
+# Identifying numeric variables
+numericData <- dat2[sapply(dat2, is.numeric)]
+# Calculate correlation matrix
+descrCor <- cor(numericData)
+# find attributes that are highly corrected
+highlyCorrelated <- findCorrelation(descrCor, cutoff=0.7)

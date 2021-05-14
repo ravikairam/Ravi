@@ -1,0 +1,61 @@
+ 
+
+There were a couple of question on kind of preparation for ML and here is the summary for your reference
+
+1. Linear Regression
+
+2. Logistic Regression
+
+3. Decision Trees
+
+4. KNN
+
+5. Random Forest and Ensembles (boosting, bagging and stacking)
+
+ 
+
+For each of this algorithm, you may start with following
+
+1. Does algorithm requires data in specific formats (completely categorical or numeric or both)
+
+2. Basic working of the algorithm
+
+3.  What is output model
+
+4. How is the model interpreted
+
+ 
+
+General Data Challenges
+
+1. Class imbalance- If the target has levels with one level having more number of records that other level.
+
+  - In such cases we generate synthetic samples in train data and method is known as SMOTE. In python we can use Imbalanced-learn
+
+     For some algorithms such as SVM or logistic regression (particularly in python) we have parameter called weights where we can specify weights to minority and majority samples
+
+ 
+
+2. More number of attributes- Dimensionality Reduction
+
+3. More number of levels in categorical attributes- Reducing levels
+
+ 
+
+General Preprocessing
+
+-Standardization- How to perform it separately on train and test
+
+-PCA - using predict function to get scores for both train and test
+
+- Categorical to numeric and vice versa
+
+ 
+
+Libraries:
+
+Caret package- for grid search, preprocessing, cross validation, comparison of different methods etc. This package is very resourceful and you can explore it.
+
+ 
+
+If we practice this, most of ML methods and techniques are covere

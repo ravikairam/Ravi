@@ -1,0 +1,16 @@
+WEIGHTING IN CONDITIONAL TREE AND SVM
+
+Deepanshu Bhalla  May 19, 2015  Add Comment  data mining, Machine Learning, R Programming
+
+ 
+When there is a problem of class imbalances, it is important to apply weights to fine tune model performance.
+
+Conditional Inference Tree / Forest
+ct1 <- ctree(Class ~ ., data=mydata, weights= ifelse(mydata$Class=='churn', 10, 1),mincriterion = 0.999)
+It means giving more importance to correct classification of churn than non-attritors. The same weights function can be applied to cforest.
+
+Support Vector Machine
+
+Add class.weights option in SVM.
+
+class.weights = c(churn= 10, non-attritors = 1)

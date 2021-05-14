@@ -1,0 +1,651 @@
+Statistical Analysis:
+---------------------
+
+Data Types:
+--------
+
+1. Nominal ----> Labels (Names)
+
+2. Ordinal ----> Ordering the things (Rank orders)
+
+3. Interval ---->  Magnitude ( Rating on scale 1 to 10)
+
+4. Ratio ----> Time to finish the things (absolute value)
+
+Nominal                 Ordinal                  Interval                  Ratio
+-------                ---------                 ---------                --------
+
+Mode                   Mode                      Mode                      Mode
+
+Frequencies            Median                    Median                    Median
+
+Percentages            Frequencies               Mean                      Mean
+                       
+                       Percentages               Frequencies               Frequencies
+
+                       Some statistical          Percentages               Percentages
+                       Analysis
+                                                 Variance                  Variance
+
+                                                 Standard Deviation        Standard Deviation
+
+                                                 Most of the statistical   Ratio of numbers
+                                                 Analysis
+                                                                           All statistical Analysis
+
+
+Random Variable:
+---------------
+Describes the probabilities for an uncertain future numerical outcome of a random process.
+
+Probability distribution:
+------------------------
+
+Probability: Long run average of a random event occuring
+             Different from subjective beliefs
+
+probability distribution is a rule that identifies possible outcomes of a random variable & assigns a probability to each.(Y-axis is probability)
+
+Discrete distribution ----> Has a finite number of value (Face value of a card)
+
+Continuous distribution ----> Has all possible values in some range (Eg: Sales/ month, height of students in class)
+
+Continuous daistributions are nicer to deal with and are good approximations when there are large number of possible values.
+
+Measures of Central Tendency & Dispersion:
+------------------------------------------
+
+
+
+Central Tendency : 1st moment business decision
+----------------
+
+Mean ---> Average value (Influenced by outliers) : (Continuos variables)
+
+Median ---> Middle value of the data (Not influenced by outliers) : (Continuous variables)
+
+Mode ----> Most occurring value in the data :Continuous ,discrete like (red, red, blue) --->Categorical data
+
+
+
+Dispersion :2nd moment business decision
+-----------
+
+Variance ----> The weighted average of the squared deviations from the mean.
+
+Standard Deviation ----> Squareroot of Variance (to bring the units to original units)
+
+Range ----> Max - Min
+
+Normal distribution:
+--------------------
+
+---> Charecterised by mean & SD
+
+---> charecterised by bell shaped curve (Graph is bell shaped curve)
+
+---> Area under bell shaped curve is always 1
+
+--->Symmetric and centred around the mean (which is also median & mode)
+
+---> Probability associated with any single value of random variable is always zero.It is always associated with a Range
+
+Standardise the data :
+----------------------
+
+Standardise the data z = (x - mean)/ SD # become unit less
+
+After standardising mean= 0 and SD = 1
+
+----> To calculate the probability  R: Pnorm (x, mean, SD)
+
+Normal Quantile (Q-Q) Plot:
+
+It should be striaght line.
+
+"extRemes " is the package to be installed for Q-Q PLOT.
+
+qqnorm(mba$ gmat) # to show normal distribution
+qqline(mba$gmat,col="Red") # to show qq line with clour red
+
+"car " is the package to be installed for QQ plot
+
+qqplot (mba$gmat ,distribution = "norm")
+
+Inferential Statistics:
+-----------------------
+
+Population Parameters                                      Sample statistics
+
+	mue                       Mean                        x bar
+
+       sigma 2                    Variance                    s squared
+
+        pi                      Proportion                     p
+
+Population ------> Simple random sampling ---------> Sample
+
+simple random sampling :
+----------------------
+
+Unbiased : Every unit has equal chance of picking
+
+Independent : Selection of one unit has no influence on the other
+
+SRS : Gold standard against which other samples are measured.
+
+
+Sampling frame:
+---------------
+
+List of items from which you draw a sample
+
+Sampling can go wrong :
+---------------------
+
+1. Collecting data from only volunteers
+
+2. Picking easily available respondents
+
+3. High rate of non-response (morethan 70%) like CEOS & directors
+
+
+Sampling variation:
+-------------------
+
+1. Sample mean varies from one sample to other.
+
+2. Sample mean cannot be same as population mean
+
+3.Sample mean is a random variable.
+
+Central Limit Theorem:
+---------------------
+
+The distribution of sample mean 
+
+a) will be normal if the distribution of data in population is normal
+
+b) Approximately normal if the distribution of data in population is not normal but sample size is fairly large.
+
+
+Sample size is considered to be large if
+
+1. n > 10 (k3 squared) # k3 is sample skewness
+
+2. n> 10 (mod k4) # where k4 is sample kurtosis
+
+"moments" is the package to know the skewness & kurtosis in R
+
+skewness (mba$gmat)
+
+kurtosis(mba$gmat)
+
+Confidence interval :
+-----------------------
+
+Interval estimate = point estimate +- Margin of error
+            
+                  = x bar +- z/1-sigma (sigma/ squareroot n)
+
+n = sample size ; sigma = population SD ;X bar is mean
+
+qnorm(0.975) for 95% confidence interval
+qnorm (0.95) for 90% confidence interval
+
+Hypothesis Testing:
+-------------------
+
+Actual testing                   H0 is True              H1 is True
+
+Accept H0                        Right Decision          Type 2 error (beta error)
+
+Accept H1                        Type 1 error (Alpha)    Right Decision
+
+1. Start with Hypohesis about population parameter (mean, proportion,.....
+
+2. Collect sample info
+
+3. Reject /do not reject hypothesis
+
+H0---> Null Hypothesis -----> No action/ status que
+
+Ha---> Alternate Hypothesis -----> Action reqd
+
+Y                               X                                         Test
+
+Continuous           Discrete morethan 2 categories                   ANOVA (Single Factor)
+
+Continuous           Discrete in 2 categories                         T-test
+
+Continuous           Continuous                                       Regression
+
+Discrete             Discrete in 2 categories                         2-proportion test
+
+Discrete             Discrete in multiple categories                  Chi-square test
+
+Process:
+--------
+
+1. Normality test
+
+2. Test for equal variance
+
+3. Test for equal mean
+
+4. Hypothesis testing
+
+
+
+
+
+Y=F(X)
+
+1. Normality test 
+
+P value > 0.05 (Accept null Hypothesis H0) ----> No Action Required.
+
+P value <= 0.05 (Reject null Hypothesis Ha) -----> Action required
+
+2. Variance test
+
+P value > 0.05 (Accept null Hypothesis H0) ----> No Action Required.
+
+P value <= 0.05 (Reject null Hypothesis Ha) -----> Action required
+
+3. T -test (assuming equal variance)
+
+P value < 0.05 then we need to go for alternate hypothesis
+
+4. T-test (diifference)
+
+<=
+>
+
+based on that we decide.
+
+For continuous only we will go for normality & variance test
+
+for discrete we will not go for normality & discrete test.
+
+P high ----> nULL FLY
+
+P low -----> Null go
+
+Alpha error: Is the chance of going wrong when action is taken when action is not required
+
+Beta error: The change of going wrong when action is not taken when it is required.
+
+Summary:
+-------
+
+Data scientists are responsible for modeling complex business problems, discovering business insights & identifying opportunities.
+
+Statistics:
+-----------
+
+1. Exploratory Data analysis: Derive initial insights from the data using R & other visualization tools.
+
+2. Descriptive Statistics: Summarize & describe the data sets using a measure (Central tendency, Dispersion, Variability & plots)
+
+3. Inferential statistics : Probability, Central limit theorem& much more to draw inference (Sampling, Confidence interval)
+
+4. Design of Experiments: Using Design of experiments for data collection
+
+5. Hypothesis testing : Understand how to formulate hypothesis ( ANOVA, T-test, Regression, 2 -proportion test, chi-square test)
+
+Data Visualization:
+-------------------
+
+Is a common term that describes any effort to help the people to understand the signification of data by placing in visual context.
+
+Data blending:
+------------
+
+Where you can combine the data from different sources into single worksheet.
+
+1.Difference between population variance & sample variance?
+
+Population variance has a formulae with N in denominator where as sample variance has a formulae with N-1 in denominator. Also, population
+variance is represented by greek letters & sample variance is represented by english letters.
+
+Histogram:
+--------- 
+Represents frequency distribution (Howmany observations take place within a certain level)----> Deals with continuous data ( bins Includes outliers)
+
+Y-axis there is a count
+
+Bar Chart:
+---------
+
+is a great deal of other types of data like nominal or ordinal (Deals with discrete data)----> Repesents in table format first
+
+Binning:
+-------
+
+Grouping logical things together.
+
+Bin size or Bin width:
+---------------------
+
+Bin size = Range (Max- Min)/ no. of bins
+
+no. of bins = max value - min value / width of bar.
+
+Box plot:
+--------
+
+Divides data into 4 groups ( Min, Q1,Q3, mAX)
+
+IQR ---> Inter Quartle Range ( Middle 50% of data) & each of two whiskets contains 25% of data
+
+Length of whiskers :
+
+Q1 -1.5(IQR)
+Q3 +1.5(IQR)
+
+Outliers or Extreme values:
+--------------------------
+
+Outliers is a data point whose response Y does not follow the general trend of rest of data (Influences any part of regression line such as
+predicted response, estimated slope coes & hypothesis test results)
+
+Formulae to calculate outliers:
+------------------------------
+
+below Q1 -1.5(IQR)
+
+Above Q3 +1.5(IQR)
+
+skewness                                                           Kurtosis
+
+Measure of assymetry in distribution                  Measure of peakedness of distribution
+
++ve (Right skewd)                                        Thin peak & Thin tails
+
+-ve (Left skewd)                                         Wider peak & wider tails
+
+Skewness does not represent the relationship between mean & median.
+
+
+Different between Interval data type & Ratio data types:
+--------------------------------------------------------
+
+Interval data type : deal with magnitude or range (eg: foreign heat & celcius)
+
+Ratio data type: deal with absolute scale (currency)
+
+Box- Cox Transformation:
+-----------------------
+
+It does notactually check for normality & this method checks for the smallest standard deviation.(The data should be of only positive values)
+
+Cros-section data:
+-----------------
+
+Data collected for different individual products etc, for same period( 1 year data for multiple products)
+
+Time series data:
+-----------------
+
+Data collected for a single product in a successive periods placed at uniform intervals.(Sales for each quarter or each month or each year)
+
+Panel data:
+-----------
+
+Data combining cross sectional data & time series data.
+
+Influential point:
+-----------------
+
+Is an outlier that impacts the slope of regression line. To test influence of outlier is to compute regression equation with or without outlier
+
+
+Qualitative data                                                                  Quantitative data
+
+1. Deals with description(Quality)                                          1. Deals with numbers(Quantity)
+
+2. Data can be observed but not measured                                    2. Data can be measured.
+
+Transformation of data:
+
+x is data transformation of data is like 1/x or x square or log(x)......
+
+----> If data is normal then it is parametric test (then we go for test for mean)
+
+----> If data is not normal then it is non parametric (then we go for test for median)
+
+1.Why do we check whether the data follows normaldistribution?
+
+Ans: 2- independent sample t-test assumes that the data follows normal distribution and therefore we carry out normality test. We may carry out Anderson-Darling
+ normality test and if p-value is more than alpha, we consider that data are normal(P>0.05)
+
+2.What is Bonett-test for?
+Ans: Bonett-test is used to compare variances of two groups. It tests the hypothesis whether there is any difference between two population variances
+Bonett-test results help us determine whether we should assume equal variances or not while carrying out 2-independent sample t test
+
+3.What is 2-independent sample t-test for?
+Ans: 2-independent sample t-test  compares and tests the difference between the means of two independent populations
+     2-independent sample t-test are of two types and we choose one of them depending on Bonett-test results
+     2-independent sample t-test assuming equal variances
+     2-independent sample t-test assuming unequal variances
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ANOVA (Analysis of Variance):
+----------------------------
+
+----> Used to compare the equality of means when there are morethan 2 populations.
+
+----> Used with one or two factors
+
+MANOVA
+
+----> Morethan 2 factors
+
+
+Sum of squares Total (SST) = Sum of squares treatment (SSTR) + Sum of squares error (SSE)
+
+
+
+Scatter Plot:
+------------
+provides graphical representation of relationship between two continuous variables.
+
+Correlation does not mean causation
+
+Causation means one causes other
+
+Correlation analysis:
+-------------------
+
+Correlation analysis measures the degree of linear relationship between two variables
+
+----> Range of correlation coe is -1 to +1
+
+----> Perfect positive relationship +1
+
+----> Perfect negative relationship -1
+
+----> no relationship is 0
+
+If absolute value of correlation coe (r) > 0.85 then it is good relationship.
+
+Regression Analysis:
+--------------------
+
+Scatter plot + Correlation coe +Regression analysis = predict future performance from past results
+
+Regression analysis is a tool that uses data on relevant variables to develop a predictive equation or model
+
+Y = B1 +B2(X)+E
+
+B1 = Constant/intercept , B2 =Slope  , E = error
+
+R squared also known as coe. of determination represents the % of variation in output (dependendent variables) explained bt input variables.
+
+Higher R squared the better the model
+
+R square exists in range 0 to 100%
+
+R square is in between 0.65 and 0.8 (Moderate correlation)
+
+R square > 0.8 strong correlation
+
+Prediction interval & confidence intervals are used in predictions in regression or other linear models.
+
+Prediction interval:
+-------------------
+
+Predicts a range that a single new observation would like to fall within the specified limits of predictors.
+
+Confidence Interval:
+--------------------
+
+Predicts a range that mean response would like to fall within specified limits of predictoes.
+
+----> Always prediction interval wider than the confidence interval.
+
+----> less than 0.05 (Significant for prediction)
+
+Collinearity problem:
+--------------------
+
+If input variables depends on each other then it is called as collinearity problem.
+
+Highly correlation can be found for numeric variables only.
+
+Methods to measure collinearity problem:
+---------------------------------------
+
+1. Correlation matrix (condition indices)
+
+2. Variation inflation factor (VIF)
+
+----> If VIF> 10 then there is a collinearity problem
+
+
+Standard error of mean = sigma / squareroot of n
+
+Standardized residual = Normal residual /Population Standard deviation (For population)
+
+Studentized residual = Normal residual /sample Standard deviation
+
+The problems of outliers in model :
+----------------------------------
+
+1. Standard error of model becomes more
+
+2. Estimates are unreliable
+
+Error = Actual value - Predicted value
+
+Quantiles : are cut points dividing set of observations into equal sized groups.
+
+4 quantiles are called quartiles.
+
+
+Dummy variables or Indicator variable:
+-------------------------------------
+
+Is a numerical variable used in regression analysis to represent subgroups ofthe sample in the study.
+
+
+Linear models & Non-Linear models:
+----------------------------------
+
+A model is called linear when it is linear in parameters[y =B0 + B1X WHERE B0,B1 are parameters]
+
+A model is called non- linear if the parameters are not linear ef [Y=B0+B1exp 2X where  B0,B1 are transformed still non-linear]
+
+Prametric model & Non - Prametric models:
+-----------------------------------------
+
+If the data assumed to follow some theoritical distribution is parametric model (eg ; normal or binomial distribution)
+
+If the data is not following the theoritical distribution is called non - parametric models(eg: Smoothening models like Kernel smoothening)
+
+Correlation : is a two way phenomenon Y-->X , X-->Y (Found between the variables which are not at all related)---> correlation does not guarantee causation
+
+Regression is one way Y-->X
+
+Cauation ---> One variable effect other variable.
+
+-----> If population SD is known then we go with Z-distribution for finding probability
+
+-----> If population SD is not known then we go with T-distribution for finding probability.
+
+Undersampling:
+--------------
+
+Taking a sample size less than what your actual sample size should have been
+
+Oversampling:
+-------------
+
+Taking a sample size more than what actual sample size should have been.
+
+
+
+Union Probability:
+-----------------
+
+Any probability with an "or" in it, would be an example of union probability.
+
+ 
+
+Examples:
+
+Probability of rain on sunday OR on saturday   = P(rain on sunday) + P(rain on saturday) - P(rain on both days)
+
+ 
+
+The above is an example of union probability statement about the possibility of an event (rain) occuring on two different days.
+
+But you are also likely to encounter statements of union probabilities about two completely different events. For eg:
+
+ 
+
+Probability of thunderstorm or Probability of Passing an exam
+
+ 
+
+Even in this case, the probability is computed using the exact same formula.
+
+ 
+
+Sometimes in problems you would be asked to compute the probability of an event happening and you might find that its easier to compute it as Union probability of two other events whose probabilities you know.
+
+For eg: The current Ind vs Aus T-20 series stands at 1-1 with 1 more game remaining. What is the probability that the series ends without a winner?
+
+ 
+
+The series would end with 1 win each, if any of the two following events happen - the next game ends in a tie or if the next game is washed out.
+
+So Prob(no winner) = Prob (Tie game or Washed-out game)
+
+= P(Tie game) + P(washed-out game) - P(Tie game and Washed-out game)
+
+ 
+
+But we can't have Tied game and washed-out game happening together.
+
+They are mutually exclusive event. i.e P(Tie game and Washed-out game) = 0
+
+ 
+
+So 
+
+Prob(no winner) =  P(Tie game) + P(washed-out game)
+
+ 
+
+So if you know the probability of tie game or prob of being washed-out separately, then using union probability formula you can compute the final probability. Most of the time, this is how union probability is used.
+
+ 
+
+Hope that helps.
+
+
+

@@ -1,0 +1,130 @@
+VALIDATE CLUSTER ANALYSIS
+
+Deepanshu Bhalla  January 03, 2016  Add Comment  R Programming, Statistics
+
+ 
+The pre-validation steps of cluster analysis are already explained in the previous tutorial - Cluster Analysis with R. Clustering validation process can be done with 4 methods (Theodoridis and Koutroubas, G. Brock, Charrad). The methods are as follows -
+
+I. Relative Clustering Validation
+
+Relative clustering validation, which evaluates the clustering structure by varying different parameter values for the same algorithm (e.g.,: varying the number of clusters k). It’s generally used for determining the optimal number of clusters.
+
+It is already discussed in the previous article - How to determine the optimal number of clusters
+
+II. Internal Clustering Validation
+
+Internal clustering validation, which use the internal information of the clustering process to evaluate the goodness of a clustering structure. It can be also used for estimating the number of clusters and the appropriate clustering algorithm.
+
+The internal measures included in clValid package are:
+Connectivity - what extent items are placed in the same cluster as their nearest neighbors in the data space. It has a value between 0 and infinity and should be minimized.
+Average Silhouette width - It lies between -1 (poorly clustered observations) to 1 (well clustered observations). It should be maximized.
+Dunn index - It is the ratio between the smallest distance between observations not in the same cluster to the largest intra-cluster distance. It has a value between 0 and infinity and should be maximized.
+
+III. Clustering Stability Validation
+
+Clustering stability validation, which is a special version of internal validation. It evaluates the consistency of a clustering result by comparing it with the clusters obtained after each column is removed, one at a time.
+
+The cluster stability measures includes:
+The average proportion of non-overlap (APN)
+The average distance (AD)
+The average distance between means (ADM)
+The figure of merit (FOM)
+
+The APN measures the average proportion of observations not placed in the same cluster by clustering based on the full data and clustering based on the data with a single column removed.
+
+The AD measures the average distance between observations placed in the same cluster under both cases (full dataset and removal of one column).
+
+The ADM measures the average distance between cluster centers for observations placed in the same cluster under both cases.
+
+The FOM measures the average intra-cluster variance of the deleted column, where the clustering is based on the remaining (undeleted) columns. It also has a value between zero and 1, and again smaller values are preferred.
+The values of APN, ADM and FOM ranges from 0 to 1, with smaller value corresponding with highly consistent clustering results. AD has a value between 0 and infinity, and smaller values are also preferred.
+
+IV. External Clustering Validation
+
+External cluster validation uses ground truth information. That is, the user has an idea how the data should be grouped. This could be a know class label not provided to the clustering algorithm. Since we know the “true” cluster number in advance, this approach is mainly used for selecting the right clustering algorithm for a specific dataset.
+
+The external cluster validation measures includes:
+Corrected Rand Index
+Variation of Information (VI)
+
+The Corrected Rand Index provides a measure for assessing the similarity between two partitions, adjusted for chance. Its range is -1 (no agreement) to 1 (perfect agreement). It should be maximized.
+
+The Variation of Information is a measure of the distance between two clusterings (partitions of elements). It is closely related to mutual information. It should be minimized.
+
+Important Point
+It is essential to validate clustering with both internal and external validation measures. If you do not have access to external (actual label) data, the analyst should focus on internal and stability validation measures.
+
+R Code : Validate Cluster Analysis
+###########################################################################
+####################### Clustering Validation #############################
+###########################################################################
+
+#Load data
+data = iris[,-c(5)]
+data = scale(data)
+
+#Loading desired package
+install.packages("clValid")
+library(clValid)
+
+# Internal Validation
+clmethods <- c("hierarchical","kmeans","pam")
+internval <- clValid(data, nClust = 2:5, clMethods = clmethods, validation = "internal")
+
+# Summary
+summary(internval)
+optimalScores(internval)
+
+# Hierarchical clustering with two clusters was found the best clustering algorithm in each case (i.e., for connectivity, Dunn and Silhouette measures)
+plot(internval)
+
+# Stability measure Validation
+clmethods <- c("hierarchical","kmeans","pam")
+stabval <- clValid(data, nClust = 2:6, clMethods = clmethods,
+                validation = "stability")
+
+# Display only optimal Scores
+summary(stabval)
+optimalScores(stab)
+
+# External Clustering Validation
+library(fpc)
+
+# K-Means Cluster Analysis
+fit <- kmeans(data,2)
+
+# Compute cluster stats
+species <- as.numeric(iris$Species)
+clust_stats <- cluster.stats(d = dist(data), species, fit$cluster)
+
+# Corrected Rand index and VI Score
+# Rand Index should be maximized and VI score should be minimized
+clust_stats$corrected.rand
+clust_stats$vi
+
+# k means Cluster Analysis
+fit <- kmeans(data,2)
+
+# Compute cluster stats
+species <- as.numeric(iris$Species)
+clust_stats <- cluster.stats(d = dist(data), species, fit$cluster)
+
+# Corrected Rand index and VI Score
+# Rand Index should be maximized and VI score should be minimized
+clust_stats$corrected.rand
+clust_stats$vi
+
+# Same analysis for Ward Hierarchical Clustering
+d2 <- dist(data, method = "euclidean")
+fit2 <- hclust(d2, method="ward.D2")
+
+# cluster assignment (members)
+groups <- cutree(fit2, k=2)
+
+# Compute cluster stats
+clust_stats2 <- cluster.stats(d = dist(data), species, groups)
+
+# Corrected Rand index and VI Score
+# Rand Index should be maximized and VI score should be minimized
+clust_stats2$corrected.rand
+clust_stats2$vi

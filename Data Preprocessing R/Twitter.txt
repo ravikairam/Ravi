@@ -1,0 +1,39 @@
+library("twitteR")
+install.packages("twitteR")
+install.packages("ROAuth")
+library("ROAuth")
+cred <- OAuthFactory$new(consumerKey='V6lwhd2foS6nSKcmXaSGXaFlu',
+                         consumerSecret='q58MRbVK17QoLmfi6saa5KVZ84rctQqTc04Qzkt232r6a0kJUB',
+                         requestURL='https://api.twitter.com/oauth/request_token',
+                         accessURL='https://api.twitter.com/oauth/access_token',
+                         authURL='https://api.twitter.com/oauth/authorize')
+#cred$handshake(cainfo="cacert.pem")
+save(cred, file="twitter authentication.Rdata")
+load("twitter authentication.Rdata")
+install.packages("base64enc")
+library(base64enc)
+
+install.packages("httpuv")
+library(httpuv)
+
+setup_twitter_oauth("V6lwhd2foS6nSKcmXaSGXaFlu", 
+                    "q58MRbVK17QoLmfi6saa5KVZ84rctQqTc04Qzkt232r6a0kJUB", 
+                    "59715080-oweQvmKsjGOhszq7mjOvFRAjXY8Cx8CiEUkts9zVl",
+                    "64FIAVfX9HkzSoSk5ZbcxPG9gAJlOPj0mUGNb7Eih5942")
+
+#registerTwitterOAuth(cred)
+
+Tweets <- userTimeline('EasyAnalytics1', n = 1000)
+
+TweetsDF <- twListToDF(Tweets)
+write.csv(TweetsDF, "Tweets.csv")
+
+
+#Tweets <- userTimeline('Twitter page', n = 1000, cainfo="cacert.pem")
+#TweetsDF <- twListToDF(Tweets)
+#write.csv(TweetsDF, "Official Channel Tweets.csv")
+#handleTweets <- searchTwitter('@TwitterHandle', n = 10000, since = '2015-04-01', cainfo="cacert.pem") 
+#handleTweetsDF <- twListToDF(handleTweets)
+#handleTweetsMessages <- unique(handleTweetsDF$text)
+#handleTweetsMessages <- as.data.frame(handleTweetsMessages)
+#write.csv(handleTweetsDF, "TefalHandleTweets.csv")

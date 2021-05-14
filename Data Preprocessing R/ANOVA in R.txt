@@ -1,0 +1,21 @@
+getwd ()
+
+a1 <- c(10,25,5,28,78)
+
+a2 <- c(21,5,28,89,34)
+
+a3 <- c(90,56,66,34,88)
+
+data <- data.frame(cbind(a1,a2,a3))
+
+data
+
+s <- stack(data)
+
+s
+
+result <- aov(values~ind,data=s)
+
+result
+
+summary(result)

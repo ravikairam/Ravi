@@ -1,0 +1,25 @@
+getwd()
+
+data("stackloss")# In built data set stackloss in R
+
+head(stackloss)# To list first 6 parameters of all variables
+
+stackloss.lm <- lm(stack.loss~Air.Flow+Water.Temp+Acid.Conc.,data = stackloss)# Create multiple linear regression model
+
+stackloss.lm # To see coefficients of the model.
+
+newdata <- data.frame(Air.Flow=72,Water.Temp=20,Acid.Conc.=85)# Assigning object for given values of independent variables
+
+predict(stackloss.lm,newdata)# predicting values for new object created
+
+summary(stackloss.lm) # Gives Summary
+
+summary(stackloss.lm)$r.squared # Gives multiple R squared value
+
+summary(stackloss.lm)$adj.r.squared # Gives adjusted R squared value
+
+newdata <- data.frame(Air.Flow=72,Water.Temp=20,Acid.Conc.=85)# create new object of desired inputs
+
+predict(stackloss.lm,newdata,interval="confidence") # Esimates of confidence interval
+
+predict(stackloss.lm,newdata,interval="predict")# Estimates of predicted intervals

@@ -1,0 +1,190 @@
+ARIMA MODELING WITH R
+
+Deepanshu Bhalla  October 19, 2015  6 Comments  R Programming, Time Series
+
+ 
+Data Set Description
+Manufacturer’s stocks of evaporated and sweetened condensed milk (case goods), Jan 1971 – Dec 1980
+Load Data
+library(forecast)
+library(fpp)
+# Plot time series data
+tsdisplay(condmilk)
+
+Time Series Plot
+
+Tutorial - Basics of Time Series Modeling
+
+ARIMA Modeling Steps
+Plot the time series data
+Check volatility - Run Box-Cox transformation to stabilize the variance
+Check whether data contains seasonality. If yes, two options - either take seasonal differencing or fit seasonal arima model.
+If the data are non-stationary: take first differences of the data until the data are stationary 
+Identify orders of p,d and q by examining the ACF/PACF
+Try your chosen models, and use the AICC/BIC to search for a better model. 
+Check the residuals from your chosen model by plotting the ACF of the residuals, and doing a portmanteau test of the residuals. If they do not look like white noise, try a modified model.
+Check whether residuals are normally distributed with mean zero and constant variance 
+Once step 7 and 8 are completed, calculate forecasts
+Note : The auto.arima function() automates step 3 to 6.
+
+Many of the simple time series models are special cases of ARIMA Model
+
+Simple Exponential Smoothing ARIMA(0,1,1)
+Holt's Exponential Smoothing  ARIMA(0,2,2)
+White noise ARIMA(0,0,0)
+Random walk ARIMA(0,1,0) with no constant
+Random walk with drift ARIMA(0,1,0) with a constant
+Autoregression ARIMA(p,0,0)
+Moving average ARIMA(0,0,q)
+
+
+Step I : Check Volatility
+
+If the data show different variation at different levels of the series, then a transformation can be beneficial. Apply box cox transformation to find the best transformation technique to stabilize the variance.
+
+Lambda values : 
+? = 1  (No substantive transformation)
+? = 0.5 (Square root plus linear transformation)
+? = 0 (Natural logarithm)
+? = -1 (Inverse plus 1)
+Note : InvBoxCox() function reverses the transformation.
+lambda = BoxCox.lambda(condmilk)
+tsdata2 = BoxCox(condmilk, lambda=lambda)
+tsdisplay(tsdata2)
+
+Step 2 : How to detect Seasonality
+
+Seasonality usually causes the series to be nonstationary because the average values at some particular times within the seasonal span (months, for example) may be different than the average values at other times.
+seasonplot(condmilk)
+monthplot(condmilk)
+How to treat Seasonality
+
+1. Seasonal differencing
+It is defined as a difference between a value and a value with lag that is a multiple of S. With S = 4, which may occur with quarterly data, a seasonal difference is
+(1-B4)xt = xt - xt-4.
+
+2. Differencing for Trend and Seasonality:
+
+When both trend and seasonality are present, we may need to apply both a non-seasonal first difference and a seasonal difference.
+
+3. Fit Seasonal ARIMA Model
+
+The seasonal ARIMA model incorporates both non-seasonal and seasonal factors in a multiplicative model.  One shorthand notation for the model is
+ARIMA(p, d, q) × (P, D, Q)S,
+with p = non-seasonal AR order, d = non-seasonal differencing, q = non-seasonal MA order, P = seasonal AR order, D = seasonal differencing, Q = seasonal MA order, and S = time span of repeating seasonal pattern.
+
+
+Step 3 : Detect Non-Stationary Data
+
+The stationarity of the data can be known by applying Unit Root Tests - Augmented Dickey–Fuller test (ADF), Kwiatkowski-Phillips-Schmidt-Shin (KPSS) test.
+
+Augmented Dickey–Fuller test (ADF)
+The null-hypothesis for an ADF test is that the data are non-stationary. So p-value greater than 0.05 indicates non-stationarity, and  p-values less than 0.05 suggest stationarity.
+KPSS Test
+In this case, the null-hypothesis is that the data are stationary. In this case, p-value less than 0.05 indicates non-stationary series.
+
+How to treat Non-Stationary Data
+
+If the data is non- stationary, then we use Differencing - computing the differences between consecutive observations. Use ndiffs(),diff() functions to find the number of times differencing needed for the data & to difference the data respectively.
+
+
+Step 4 : Model Identification and Estimation
+
+To understand it in detail, check out this link - ARIMA with SAS
+
+We can do the  model identification in two ways :
+
+1 . Using ACF and PACF Functions
+
+2.  Using Minimum Information Criteria Matrix (Recommended)
+
+
+Method I : ACF and PACF Functions
+
+Autocorrelation Function (ACF)
+
+Autocorrelation is a correlation coefficient. However, instead of correlation between two different variables, the correlation is between two values of the same variable at times Xt and Xt-h. Correlation between two or more lags.
+If the autocorrelation at lag 1 exceeds the significance bounds, set q = 1
+If the time series is a moving average of order 1, called a MA(1), we should see only one significant autocorrelation coefficient at lag 1. This is because a MA(1) process has a memory of only one period. If the time series is a MA(2), we should see only two significant autocorrelation coefficients, at lag 1 and 2, because a MA(2) process has a memory of only two periods.
+
+Partial Autocorrelation Function (PACF)
+
+For a time series, the partial autocorrelation between xt and xt-h is defined as the conditional correlation between xt and xt-h, conditional on xt-h+1, ... , xt-1, the set of observations that come between the time points t and t-h.
+If the partial autocorrelation at lag 1 exceeds the significance bounds, set p = 1
+If the time-series has an autoregressive order of 1, called AR(1), then we should see only the first partial autocorrelation coefficient as significant. If it has an AR(2), then we should see only the first and second partial autocorrelation coefficients as significant.
+
+
+Method II : Minimum AIC / BIC Criteria
+
+Fit a series of ARIMA models with combinations of p, d and q and select the model having minimum AIC / BIC.
+#Automatic Selection Algorithm - Fast
+auto.arima(tsdata2, trace= TRUE, ic ="aicc", approximation = FALSE)
+#Auto Algorithm - Slow but more accurate
+auto.arima(tsdata2, trace= TRUE, ic ="aicc", approximation = FALSE, stepwise = FALSE)
+
+Final Model
+finalmodel = arima(tsdata2, order = c(0, 0, 3), seasonal = list(order = c(2,0,0), period = 12))
+summary(finalmodel)
+Compare Multiple Models
+AIC(arima(tsdata2, order = c(1, 0, 0), seasonal = list(order = c(2,0,0), period = 12)),
+    arima(tsdata2, order = c(2, 0, 0), seasonal = list(order = c(2,0,0), period = 12)),
+    arima(tsdata2, order = c(0, 0, 3), seasonal = list(order = c(2,0,0), period = 12)))
+Residual Diagnostics
+
+#1. Residuals are Uncorrelated (White Noise)
+#2. Residuals are normally distributed with mean zero
+#3. Residuals have constant Variance
+
+R Code :  
+# Check whether the residuals look like white noise (Independent)
+# p>0.05 then the residuals are independent (white noise)
+tsdisplay(residuals(finalmodel))
+Box.test(finalmodel$residuals, lag = 20, type = "Ljung-Box")
+# p-values shown for the Ljung-Box statistic plot are incorrect so calculate
+#critical chi squared value
+# Chi-squared 20 d.f. and critical value at the 0.05
+qchisq(0.05, 20, lower.tail = F)
+# Observed Chi-squared 13.584 < 31.41 so we don't reject null hypothesis
+# It means residuals are independent or uncorrelated (white noise) at lags 1-20.  
+# whether the forecast errors are normally distributed
+qqnorm(finalmodel$residuals); qqline(finalmodel$residuals) # Normality Plot
+How to choose the num­ber of lags for the Ljung-??Box test
+
+For non-??seasonal time series, 
+Number of lags to test = minimum (10, length of time series / 5)
+or simply take 10
+For seasonal time series, 
+Number of lags to test = minimum (2m, length of time series / 5)
+where, m = period of seasonality
+or simply take 2m 
+Forecasting
+# predict the next 5 periods
+Forecastmodel = forecast.Arima(finalmodel, h = 5, lambda = lambda) 
+Note : If lambda specified, forecasts back-transformed via an inverse Box-Cox transformation.
+
+If you have a fitted arima model, you can use it to forecast other time series.
+inpt = arima(newdata, model=Forecastmodel)
+
+How auto.arima function works? [Source : Link ]
+auto.arima(kingsts, approximation=FALSE, start.p=1, start.q=1, trace=TRUE, seasonal=TRUE)
+1. The number of differences d is determined using repeated KPSS tests.
+
+2. The values of p and q are then chosen by minimizing the AIC after differencing the data d times. Rather than considering every possible combination of p and q, the algorithm uses a stepwise search to traverse the model space.
+
+(a) The best model (with smallest AICc) is selected from the following four:
+
+ARIMA(2,d,2),
+ARIMA(0,d,0),
+ARIMA(1,d,0),
+ARIMA(0,d,1).
+
+If d=0 then the constant c is included; if d=1 then the constant c is set to zero. This is called the "current model".
+
+(b) Variations on the current model are considered:
+
+vary p and/or q from the current model by ±1;
+include/exclude c from the current model.
+
+The best model considered so far (either the current model, or one of these variations) becomes the new current model.
+
+(c) Repeat Step 2(b) until no lower AICc can be found

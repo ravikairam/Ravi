@@ -1,0 +1,78 @@
+                                 R Packages
+                                 -----------
+
+Library(DMwR) # For obtaining evaluation metrics
+
+library(car) # VIF
+
+library(MASS) # STEPWISE REGRESSION
+
+library(Infotheo) # Discretizing/Binning (Numerical to categorical)
+
+library(caret) # Splitting data into train & test
+
+library(lubridate) # to change text to date format
+
+library(ROCR) # Receiver Operating Characteristic(ROC)to know cutoff/thresold value for discriminationm
+
+library(gdata) # for reading xls files
+
+library(xlsx) # for reading xlsx files
+
+library(glmnet) # for Ridge & lasso regression
+
+library(e1071) # Naive bayes classification
+
+library(class) # for KNN classification
+
+library(gmodels) # for knn perfprmance of models
+
+library(sqldf) # to write SQL like commands in R to aggregate the data.
+
+R Packages:
+----------
+
+Package:
+
+Package is the collection of code written by someone in the past.
+
+1. library(foreign) # to load files from other softwares (like SPSS,....)
+
+2. library(moments) # to know skewness and kurtosis
+
+3. library(infotheo) # Discretize the variable by equal frequency & width
+
+4. library(vegan) # Standardizing the data by z score or range method
+
+5. library(dummies) # creating dummy variables to original variables
+
+6. library(DMwR) # Handling missing values (Imputation --> central imputation & knn imputation) & also identify rows of more NAS (manyNAS) 
+
+7. library(car) # for qq.plot
+
+8. library(ggplot2) # Visualizations using ggplot
+
+9. library(lubridate)# dates to keep in standard format & segregating like month as seperate column from std date
+
+10.library(reshape2) # dcast(compress) & melt(expand) the data
+
+11.library(dplyr) # Data manipulation(select,filter,mutate[creating new variable],arrange[order] & Summarize
+
+12.library(modeest) # To know the mode [mfv for discrete data & mlv]
+
+13.library(Hmisc) # to know describe [ complete info likeabout each variable"]
+
+14.library(car) # Variable Inflation factor(Multicollinearity check)
+
+15.library(MASS) # Stepwise regression (stepAIC)
+
+16.library(DMwR) # Error verification(regr.eval(y~x))
+
+17.library(caret) # split the data into training & test(createdatapartition)
+
+18.library(ROCR) # toget ROC curve & AUC & confusion matrix
+
+19.library(lattice) # Box plot for categorical variables
+
+20.library(lsr) # for getting confidence intervals
+

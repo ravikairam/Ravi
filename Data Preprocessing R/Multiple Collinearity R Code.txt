@@ -1,0 +1,19 @@
+getwd ()
+
+install.packages("DMwR")# Install package DMwR
+
+library(DMwR) # Invoke Package DMwR
+
+data ("algae") # Inbuilt package in R
+
+head(algae)# Shows Top 6 parameters in variables
+
+d <- subset(algae,select=c(mxPH,mnO2,Cl,NO3,NH4,oPO4,PO4,Chla,a1))# Creating an object with only one output variable a1& considering only required variables.
+
+lm.a1 <- lm(a1~.,data = d)
+
+install.packages("car")
+
+library (car)
+
+vif(lm.a1) # remove VIF >5 variable & again run the model until all variables having VIF<5

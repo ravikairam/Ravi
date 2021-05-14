@@ -1,0 +1,50 @@
+R : VARIABLE SELECTION - WALD CHI-SQUARE ANALYSIS
+
+Deepanshu Bhalla  October 04, 2015  Add Comment  R Programming
+
+ 
+In logistic regression, we can select top variables based on their high wald chi-square value. In other words, we can run univariate analysis of each independent variable and then pick important predictors based on their wald chi-square value.
+
+#Read Data File
+mydata <- read.csv("http://www.ats.ucla.edu/stat/data/binary.csv")
+
+#Run Logistic Regression
+mylogit <- glm(admit ~ ., data = mydata, family = "binomial")
+
+#Create Logistic Regression Function
+unilogit = function(df,depvar) {
+  depvar1 = deparse(substitute(depvar))
+  lapply(names(df)[which(names(df)!= depvar1)], function(x)
+  {mylogit = glm(formula(paste(depvar1,"~",x)), data = df, family = "binomial")
+  summary(mylogit)$coefficient}
+  )
+}
+
+#Run Function
+univariate = unilogit(mydata, admit)
+
+#Merge all the coefficients
+final <- do.call(rbind, univariate)
+
+#Make the table formatable
+univList = cbind(data.frame(Variable = row.names(final)),final)
+FinalList = subset(univList, Variable!="(Intercept)")
+FinalList[,"Wald ChiSquare"] = FinalList[4]^2
+FinalList[,"Rank"] = rank(-FinalList[6])
+FinalList = FinalList[order(FinalList$Rank),]
+Method 2 :
+unilogit2 = function(df,depvar, output) {
+  dummydt=data.frame(matrix(ncol=0,nrow=0))
+  depvar1 = deparse(substitute(depvar))
+  out = deparse(substitute(output))
+  xxxx = names(df)[which(names(df)!= depvar1)]
+  for (i in 1:length(xxxx)) {
+  mylogit = glm(formula(paste(depvar1,"~",xxxx[i])), data = df, family = "binomial")
+  coeff = data.frame(summary(mylogit)$coefficient)
+  if (i==1) {output = rbind(dummydt,coeff)}
+  else {output = rbind(output,coeff)}
+  assign(out,output, envir = .GlobalEnv)
+ }
+ }
+
+unilogit2(mydata, admit, outtable)

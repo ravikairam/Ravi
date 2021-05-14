@@ -1,0 +1,18 @@
+PREDICT FUNCTIONS IN R
+
+Deepanshu Bhalla  May 22, 2015  Add Comment  data mining, Machine Learning, R Programming
+
+ 
+The following is a list of predict functions of predictive modeling techniques in R.
+
+Support Vector Machine [library(e1071)]
+svm.pred = predict(svm.mod, val, probability = TRUE)
+Random Forest [library(randomForest)] / CART [library(rpart)]
+rf.pred = predict(rf.mod,val, type="prob")
+
+Logistic Regression [library(car)]
+log.pred = predict(log.mod,val, type="response")
+Conditional Inference Tree / Forest [library(party)]
+ct.pred = predict(ct.mod,val)
+Gradient Boosting Tree [library(gbm)]
+gbm.pred = predict(gbm.mod, type = "response", n.trees)

@@ -1,0 +1,174 @@
+
+Linear Regression
+It is a way of finding a relationship between a single, continuous variable called Dependent or Target variable and one or more other variables (continuous or not) called Independent Variables.
+
+Linear Regression 
+Variable Type
+Linear regression requires the dependent variable to be continuous i.e. numeric values (no categories or groups).
+Simple vs. Multiple Linear Regression
+Linear regression can be simple linear regression when you have only one independent variable . Whereas Multiple linear regression will have more than one independent variable.
+Regression Equation
+
+Linear Regression Equation
+b0 is the intercept and b1 is the slope. b1 represents the amount by which Y changes if we change X1 by one unit keeping other variables constant.
+
+Important Term : Residual
+The difference between an observed value of the dependent variable and the value of the dependent variable predicted from the regression line.
+
+Algorithm
+Linear regression is based on least square estimation which says regression coefficients (estimates) should be chosen in such a way that it minimizes the sum of the squared distances of each observed response to its fitted value.
+Minimum Sample Size
+Linear regression requires 5 cases per independent variable in the analysis.
+Assumptions of Linear Regression Analysis 
+
+1. Linear Relationship : Linear regression needs a linear relationship between the dependent and independent variables.
+
+2. Normality of Residual : Linear regression requires residuals should be normally distributed.
+
+3. Homoscedasticity :  Linear regression assumes that residuals are approximately equal for all predicted dependent variable values.
+
+4. No Outlier Problem
+
+5. Multicollinearity : It means there is a high correlation between independent variables. The linear regression model MUST NOT be faced with problem of multicollinearity.
+
+6. Independence of error terms - No Autocorrelation
+
+It states that the errors associated with one observation are not correlated with the errors of any other observation. It is a problem when you use time series data. Suppose you have collected data from labors in eight different districts. It is likely that the labors within each district will tend to be more like one another that labors from different districts, that is, their errors are not independent.
+
+If you want to know how to check these assumptions and how to treat them if violated, check out this tutorial -  Checking the assumptions and Treatment to Violations of Assumptions
+
+The code below covers the assumption testing and evaluation of model performance :
+Data Preparation
+Testing of Multicollinearity
+Treatment of Multicollinearity
+Checking for Autocorrelation
+Checking for Outliers
+Checking for Heteroscedasticity
+Testing of Normality of Residuals
+Forward, Backward and Stepwise Selection
+Calculating RMSE
+Box Cox Transformation of Dependent Variable
+Calculating R-Squared and Adj, R-squared manually
+Calculating Residual and Predicted values
+Calculating Standardized Coefficient
+
+R Code : Linear Regression
+library(ggplot2)
+library(car)
+library(caret)
+
+#Loading data
+data(mtcars)
+
+#Converting categorical variables to factor
+mtcars$am   = as.factor(mtcars$am)
+mtcars$cyl  = as.factor(mtcars$cyl)
+mtcars$vs   = as.factor(mtcars$vs)
+mtcars$gear = as.factor(mtcars$gear)
+
+#Dropping dependent variable
+mtcars_a = subset(mtcars, select = -c(mpg))
+
+#Identifying numeric variables
+numericData <- mtcars_a[sapply(mtcars_a, is.numeric)]
+
+#Calculating Correlation
+descrCor <- cor(numericData)
+highlyCorrelated <- findCorrelation(descrCor, cutoff=0.6)
+
+#Identifying Variable Names of Highly Correlated Variables
+highlyCorCol <- colnames(numericData)[highlyCorrelated]
+
+#Print highly correlated attributes
+highlyCorCol
+
+#Remove highly correlated variables and create a new dataset
+dat3 <- mtcars[, -which(colnames(mtcars) %in% highlyCorCol)]
+dim(dat3)
+
+#Build Linear Regression Model
+fit = lm(mpg ~ ., data=dat3)
+
+#Check Model Performance
+summary(fit)
+
+#Extracting Coefficients
+summary(fit)$coeff
+
+#Extracting Rsquared value
+summary(fit)$r.squared
+
+#Extracting Adj. Rsquared value
+summary(fit)$adj.r.squared
+
+#Stepwise Selection based on AIC
+library(MASS)
+step <- stepAIC(fit, direction="both")
+summary(step)
+
+#Backward Selection based on AIC
+step <- stepAIC(fit, direction="backward")
+summary(step)
+
+#Forward Selection based on AIC
+step <- stepAIC(fit, direction="forward")
+summary(step)
+
+#Stepwise Selection with BIC
+n = dim(dat3)[1]
+stepBIC = stepAIC(fit,k=log(n))
+summary(stepBIC)
+
+#Standardised coefficients
+library(QuantPsyc)
+lm.beta(stepBIC)
+
+#Testing for Multicollinearity
+#Check VIF of all the variables
+vif(stepBIC)
+
+#Autocorrelation Test
+durbinWatsonTest(stepBIC)
+
+#Normality Of Residuals (Should be > 0.05)
+res=residuals(stepBIC,type="pearson")
+shapiro.test(res)
+
+#Testing for heteroscedasticity (Should be > 0.05)
+ncvTest(stepBIC)
+
+#Outliers – Bonferonni test
+outlierTest(stepBIC)
+
+#See Residuals
+resid <- residuals(stepBIC)
+
+#Relative Importance
+library(relaimpo)
+calc.relimp(stepBIC)
+
+#See Predicted Value
+pred = predict(stepBIC,dat3)
+
+#See Actual vs. Predicted Value
+finaldata = cbind(mtcars,pred)
+print(head(subset(finaldata, select = c(mpg,pred))))
+
+#Calculating RMSE
+rmse <- sqrt(mean((dat3$mpg - pred)^2))
+print(rmse)
+
+#Calculating Rsquared manually
+y = dat3[,c("mpg")]
+R.squared = 1 - sum((y-pred)^2)/sum((y-mean(y))^2)
+print(R.squared)
+
+#Calculating Adj. Rsquared manually
+n = dim(dat3)[1]
+p = dim(summary(stepBIC)$coeff)[1] - 1
+adj.r.squared = 1 - (1 - R.squared) * ((n - 1)/(n-p-1))
+print(adj.r.squared)
+
+#Box Cox Transformation
+library(lmSupport)
+modelBoxCox(stepBIC)

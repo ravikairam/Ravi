@@ -1,0 +1,202 @@
+UNDERSTANDING DECISION TREE ON CREDIT DATA
+
+Deepanshu Bhalla  April 13, 2015  4 Comments  Decision Tree, R Programming, Statistics
+
+ 
+Decision Tree : Meaning
+
+A decision tree is a graphical representation of possible solutions to a decision based on certain conditions. It is called a decision tree because it starts with a single variable, which then branches off into a number of solutions, just like a tree.
+
+A decision tree has three main components :
+Root Node : The top most node is called Root Node. It implies the best predictor (independent variable).
+Decision / Internal Node : The nodes in which predictors (independent variables) are tested and each branch represents an outcome of the test
+Leaf / Terminal Node : It holds a class label (category) - Yes or No (Final Classification Outcome).
+
+Decision Tree Explained
+
+Advantages and Disadvantages of Decision Tree
+
+Advantages :
+Decision tree is easy to interpret.
+Decision Tree works even if there is nonlinear relationships between variables. It does not require linearity assumption.
+Decision Tree is not sensitive to outliers.
+
+Disadvantages :
+Decision tree model generally overfits. It means it does not perform well on validation sample.
+It assumes all independent variables interact each other, It is generally not the case every time.
+
+Terminologies related to decision tree
+
+1. Pruning (Technique to correct overfitting)
+
+It is a technique to correct overfitting problem. It reduces the size of decision trees by removing sections of the tree that provide little power to classify instances. It is used to remove anomalies in the training data due to noise or outliers. The pruned trees are less complex trees.
+
+Tree Pruning Techniques - 
+Pre-pruning - Stop growing the tree earlier, before it perfectly classifies the training set.
+Post-pruning - This approach removes a sub-tree from a fully grown tree.
+
+Cost Complexity (Pruning Parameter)
+
+The cost complexity is measured by the following two parameters -
+Number of leaves in the tree, and
+Error rate of the tree.
+
+2. Splitting
+
+It is a process of dividing a node into two or more sub-nodes.
+
+3. Branch
+
+A sub section of entire tree is called branch.
+
+4. Parent Node
+
+A node which splits into sub-nodes.
+
+5. Child Node
+
+It is the sub-node of a parent node.
+
+Classification and Regression Tree (CART)
+
+Classification Tree : The outcome (dependent) variable is a categorical variable (binary) and predictor (independent) variables can be continuous or categorical variables (binary).
+
+Algorithm of Classification Tree: Gini Index
+
+Gini Index measures impurity in node. It varies between 0 and (1-1/n) where n is the number of categories in a dependent variable.
+
+Process :
+Rules based on variables' values are selected to get the best split to differentiate observations based on the dependent variable
+Once a rule is selected and splits a node into two, the same process is applied to each "child" node (i.e. it is a recursive procedure)
+Splitting stops when CART detects no further gain can be made, or some pre-set stopping rules are met. (Alternatively, the data are split as much as possible and then the tree is later pruned.
+
+Regression Tree : The outcome (dependent) variable is a continuous variable and predictor (independent) variables can be continuous or categorical variables (binary).
+
+Algorithm of Regression Tree:  Least-Squared Deviation or Least Absolute Deviation 
+
+The impurity of a node is measured by the Least-Squared Deviation (LSD), which is simply the within variance for the node.
+
+Analysis of German Credit Data
+
+The German Credit Data contains data on 20 variables and the classification whether an applicant is considered a Good or a Bad credit risk for 1000 loan applicants.
+The objective of the model is whether to approve a loan to a prospective applicant based on his/her profiles.
+Note : The dataset can be downloaded by clicking on this link. 
+Make sure all the categorical variables are converted into factors. 
+The function rpart will run a regression tree if the response variable is numeric, and a classification tree if it is a factor.
+rpart parameter - Method - "class" for a classification tree ; "anova" for a regression tree
+Prediction (Scoring) : If type = "prob": This is for a classification tree. It generates probabilities - Prob(Y=0) and Prob(Y=1).
+Prediction (Classification) : If type = "class": This is for a classification tree. It returns 0 and 1.
+R Code
+
+#read data file
+mydata= read.csv("C:\\Users\\Deepanshu Bhalla\\Desktop\\german_credit.csv")
+
+# Check attributes of data
+str(mydata)
+
+# Check number of rows and columns
+dim(mydata)
+
+# Make dependent variable as a factor (categorical)
+mydata$Creditability = as.factor(mydata$Creditability)
+
+# Split data into training (70%) and validation (30%)
+dt = sort(sample(nrow(mydata), nrow(mydata)*.7))
+train<-mydata[dt,]
+val<-mydata[-dt,] # Check number of rows in training data set
+nrow(train)
+
+# To view dataset
+edit(train)
+
+# Decision Tree Model
+library(rpart)
+mtree <- rpart(Creditability~., data = train, method="class", control = rpart.control((minsplit = 20, minbucket = 7, maxdepth = 10, usesurrogate = 2, xval =10 ))
+
+mtree
+
+#Plot tree
+plot(mtree)
+text(mtree)
+
+#Beautify tree
+library(rattle)
+library(rpart.plot)
+library(RColorBrewer)
+
+#view1
+prp(mtree, faclen = 0, cex = 0.8, extra = 1)
+
+#view2 - total count at each node
+tot_count <- function(x, labs, digits, varlen)
+{paste(labs, "\n\nn =", x$frame$n)}
+
+prp(mtree, faclen = 0, cex = 0.8, node.fun=tot_count)
+
+#view3- fancy Plot
+rattle() fancyRpartPlot(mtree)
+
+############################
+########Pruning#############
+############################
+
+# Select the tree size that has least misclassification rate (prediction error).
+#‘CP’ stands for Complexity Parameter of the tree.
+# We want the cp value (with a simpler tree) that has least xerror(cross validated error).
+# Rel Error = Prediction error in training data
+# Prediction error rate in training data = Root node error * rel error * 100%
+# Prediction error rate in cross-validation = Root node error * xerror * 100%
+
+printcp(mtree)
+bestcp <- tree$cptable[which.min(mtree$cptable[,"xerror"]),"CP"]
+
+# Prune the tree using the best cp.
+pruned <- prune(mtree, cp = bestcp)
+
+# Plot pruned tree
+prp(pruned, faclen = 0, cex = 0.8, extra = 1)
+
+# confusion matrix (training data)
+conf.matrix <- table(train$Creditability, predict(pruned,type="class"))
+rownames(conf.matrix) <- paste("Actual", rownames(conf.matrix), sep = ":")
+colnames(conf.matrix) <- paste("Pred", colnames(conf.matrix), sep = ":")
+print(conf.matrix)
+
+#Scoring
+library(ROCR)
+val1 = predict(pruned, val, type = "prob")
+#Storing Model Performance Scores
+pred_val <-prediction(val1[,2],val$Creditability)
+
+# Calculating Area under Curve
+perf_val <- performance(pred_val,"auc")
+perf_val
+
+# Plotting Lift curve
+plot(performance(pred_val, measure="lift", x.measure="rpp"), colorize=TRUE)
+
+# Calculating True Positive and False Positive Rate
+perf_val <- performance(pred_val, "tpr", "fpr")
+
+# Plot the ROC curve
+plot(perf_val, col = "green", lwd = 1.5)
+
+#Calculating KS statistics
+ks1.tree <- max(attr(perf_val, "y.values")[[1]] - (attr(perf_val, "x.values")[[1]]))
+ks1.tree
+# Advanced Plot
+prp(pruned, main="assorted arguments",
+extra=106, # display prob of survival and percent of obs
+nn=TRUE, # display the node numbers
+fallen.leaves=TRUE, # put the leaves on the bottom of the page
+branch=.5, # change angle of branch lines
+faclen=0, # do not abbreviate factor levels
+trace=1, # print the automatically calculated cex
+shadow.col="gray", # shadows under the leaves
+branch.lty=3, # draw branches using dotted lines
+split.cex=1.2, # make the split text larger than the node text
+split.prefix="is ", # put "is " before split text
+split.suffix="?", # put "?" after split text
+split.box.col="lightgray", # lightgray split boxes (default is white)
+split.border.col="darkgray", # darkgray border on split boxes
+split.round=.5)
